@@ -5,16 +5,13 @@ class CtrlSesion extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('session');
         $this->load->model('usuario_model');
     }
-
-
-
+ 
     public function index() {
         if (session_status() === 2 && isset($_SESSION["LOGGED"])) {
-            $this->load->view('vEncabezado');
-            $this->load->view('vNavegacion');
+            $this->load->view('vEncabezado'); 
+            $this->load->view('vAdmin');
             $this->load->view('vFooter');
         } else {
             $this->load->view('vEncabezado');
@@ -24,11 +21,8 @@ class CtrlSesion extends CI_Controller {
     }
 
     public function onIngreso() {
-        try {
-            echo '1';
-            extract(filter_input_array(INPUT_POST));
-            $data = $this->usuario_model->getAcceso($USUARIO, $CONTRASENA);
-
+        try { 
+            $data = $this->usuario_model->getAcceso($this->input->post('USUARIO'), $this->input->post('CONTRASENA'));
             if (count($data) > 0) {
                 $newdata = array(
                     'USERNAME' => $data[0]->Usuario,
@@ -64,7 +58,6 @@ class CtrlSesion extends CI_Controller {
     }
     
     
-    
     public function onSalir() {
         try {
             $array_items = array('USERNAME', 'PASSWORD', 'LOGGED');
@@ -75,8 +68,4 @@ class CtrlSesion extends CI_Controller {
         }
     }
 
-
-
 }
-
-

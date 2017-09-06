@@ -1,90 +1,77 @@
-<div class="col-md-4"></div>
-<div class="col-md-4">
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title">Acceso</h3>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a><b>vCFDI</b>1.0</a>
         </div>
-        <form id="frmIngresar" class="form-horizontal">
-            
-            <div class="box-body">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <input type="email" class="form-control" id="Usuario" name="Usuario" placeholder="Email*" >
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <input type="password" class="form-control" id="Contrasena" name="Contrasena" placeholder="Contraseña*">
-                    </div>
-                </div>
-                <div class="col-md-12" >
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" placeholder="No soy un robot" id="chkRobot" name="chkRobot"> No soy un robot
-                        </label>
-                    </div>
-                </div>
-            
-                <div id="msg" class="col-md-12" ></div>
+        <div class="login-box-body">
+            <p class="login-box-msg">Iniciar Sesión</p>
 
-                <div class="box-footer">
-                    <button type="btnIngresar" class="btn btn-info pull-right">INGRESAR</button>
+            <form id="frmIngresar">
+                <div class="form-group has-feedback">
+                    <input type="text" id="Usuario" name="Usuario" class="form-control" placeholder="Usuario">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
-
-                <div class="col-md-12" > 
-                    <a href="#"> Olvidaste tu contraseña?</a>
-                </div> 
-            </div>
-            
-            
-        </form>
+                <div class="form-group has-feedback">
+                    <input id="Contrasena" type="password" class="form-control" placeholder="Contraseña">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input id="chkRobot" name="chkRobot" type="checkbox">No soy un robot
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-success btn-block btn-flat" id="btnIngresar">ACCEDER</button>
+                    </div>
+                </div>
+            </form> 
+        </div>
     </div>
-</div>
-<div class="col-md-4"></div>
+    <script>
+        var master_url = base_url + 'ctrlSesion/';
+        var btnIngresar = $("#btnIngresar");
+        var Usuario = $("#Usuario");
+        var Contrasena = $("#Contrasena");
+        var chkRobot = $("#chkRobot");
+        $(document).ready(function () {
 
-<script>
-    var master_url = base_url + "CtrlSesion/";
-    var btnIngresar = $("#btnIngresar");
-    var Usuario = $("#Usuario");
-    var Contrasena = $("#Contrasena");
-    var chkRobot = $("#chkRobot");
-    $(document).ready(function () {
-        btnIngresar.click(function () {
-            if (Usuario.val() !== '' && Contrasena.val() !== '' && chkRobot.is(':checked')) {
-                HoldOn.open({
-                    theme: 'sk-bounce',
-                    message: 'ESPERE...'
-                });
-                setTimeout(function () {
-                    var frm = $("#frmIngresar");
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_flat-red',
+                radioClass: 'iradio_flat-red'
+            });
 
-                    $.ajax({
-                        url: master_url + "onIngreso",
-                        type: "POST",
-                        data: {
-                            USUARIO: frm.find("#Usuario").val(),
-                            CONTRASENA: frm.find("#Contrasena").val()
-                        }
-                    }).done(function (data, x, jq) {
-                        if (parseInt(data) === 1) {
-                            location.reload(true);
-                        } else {
-                            onNotify('x', data, 'danger');
-                        }
-                    }).fail(function (x, y, z) {
-                        console.log(x, y, z);
-                    }).always(function () {
-                        HoldOn.close();
+            btnIngresar.click(function () {
+                if (Usuario.val() !== '' && Contrasena.val() !== '' && chkRobot.is(':checked')) {
+                    HoldOn.open({
+                        theme: 'sk-bounce',
+                        message: 'ESPERE...'
                     });
-                }, 1000);
-            } else {
-                $("#msg").html('<div  class="alert alert-dismissible alert-danger">' +
-                        '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                        '<strong>ERROR!</strong> Verifique su usuario y contraseña</div>');
-            }
+                    setTimeout(function () {
+                        var frm = $("#frmIngresar");
+                        $.ajax({
+                            url: master_url + "onIngreso",
+                            type: "POST",
+                            data: {
+                                USUARIO: frm.find("#Usuario").val(),
+                                CONTRASENA: frm.find("#Contrasena").val()
+                            }
+                        }).done(function (data, x, jq) {
+                            location.reload(true);
+                        }).fail(function (x, y, z) {
+                            console.log(x, y, z);
+                        }).always(function () {
+                            HoldOn.close();
+                        });
+                    }, 1000);
+                } else {
+                    swal('ERROR', 'INTENTELO DE NUEVO O MÁS TARDE', 'error');
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 
 

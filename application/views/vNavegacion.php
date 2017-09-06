@@ -15,6 +15,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="navbar-collapse collapse navbar-responsive-collapse" id="">
             <ul class="nav navbar-nav">
+                <li class="" id="liC"><a href="<?php print base_url('CtrlCFDI') ?>">Mis CFDIs</a></li>
                 <li class="" id="liUsuarios"><a href="<?php print base_url('CtrlUsuario') ?>">Usuarios</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -33,20 +34,3 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-
-
-
-<script>
-
-
-    var master_url = base_url + 'CtrlSesion/';
-    $(document).ready(function () {
-
-
-
-    });
-
-
-
-
-</script>
